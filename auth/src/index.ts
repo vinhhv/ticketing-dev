@@ -1,4 +1,5 @@
 import { json } from "body-parser";
+import cookieSession from "cookie-session";
 import express from "express";
 import "express-async-errors";
 import mongoose from "mongoose";
@@ -11,7 +12,14 @@ import { signoutRouter } from "./routes/sign-out";
 import { signupRouter } from "./routes/sign-up";
 
 const app = express();
+app.set("trust proxy", true);
 app.use(json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
 
 app.use(currentUserRouter);
 app.use(signinRouter);
